@@ -1,0 +1,15 @@
+*.hex
+*.bmk
+*.brk
+*.cfg
+*.dbg
+*.dct
+*.dlt
+*.log
+*.asm
+*.cp
+*.mcl
+*.mcpav
+tamagochi.lst
+tamagochi.user.dic
+tamagochi.mcpav_callertable.txt
