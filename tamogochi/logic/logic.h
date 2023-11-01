@@ -1,6 +1,0 @@
-#ifndef LOGIC_H_TAMAGOCHI
-#define LOGIC_H_TAMAGOCHI
-
-#define LOGIC
-
-#endif // LOGIC_H_TAMAGOCHI
