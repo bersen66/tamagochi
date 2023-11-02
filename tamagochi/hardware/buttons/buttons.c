@@ -24,29 +24,29 @@ enum ButtonState buttons_states[8] = {
     BTN_STATE_UP,
 };
 
-void UpdateButton(unsigned short *port, unsigned short pin, enum ButtonCode code)
+void UpdateButton(unsigned short *port, unsigned short pin, enum ButtonCode btncode)
 {
     if (Button(port, pin, 1, 1))
     {
-        switch (buttons_states[code])
+        switch (buttons_states[btncode])
         {
         case BTN_STATE_UP:
-            buttons_states[code] = BTN_STATE_PRESSED;
+            buttons_states[btncode] = BTN_STATE_PRESSED;
             break;
         default:
-            buttons_states[code] = BTN_STATE_DOWN;
+            buttons_states[btncode] = BTN_STATE_DOWN;
             break;
         }
     }
     else
     {
-        switch (buttons_states[code])
+        switch (buttons_states[btncode])
         {
         case BTN_STATE_DOWN:
-            buttons_states[code] = BTN_STATE_RELEASED;
+            buttons_states[btncode] = BTN_STATE_RELEASED;
             break;
         default:
-            buttons_states[code] = BTN_STATE_UP;
+            buttons_states[btncode] = BTN_STATE_UP;
             break;
         }
     }
