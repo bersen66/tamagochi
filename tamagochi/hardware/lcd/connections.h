@@ -1,5 +1,6 @@
 #pragma once
 
+#ifndef CONNECT_LCD
 #define CONNECT_LCD \
 sbit LCD_RS at PORTA2_bit; \
 sbit LCD_EN at PORTD6_bit; \
@@ -13,4 +14,4 @@ sbit LCD_D4_Direction at DDC4_bit; \
 sbit LCD_D5_Direction at DDC5_bit; \
 sbit LCD_D6_Direction at DDC6_bit; \
 sbit LCD_D7_Direction at DDC7_bit;
-
+#endif // CONNECT_LCD

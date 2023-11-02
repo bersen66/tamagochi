@@ -54,7 +54,7 @@ inline char GetCol(char idx)
     return idx % WD + 1;
 }
 
-// TODO: printf analogue 
+// TODO: printf analogue
 void PrintLCD(char *text)
 {
     while (*text != '\0')

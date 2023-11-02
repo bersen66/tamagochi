@@ -4,5 +4,3 @@
 #include <tamagochi/hardware/lcd/functions.h>
 
 CONNECT_LCD
-
-#pragma once

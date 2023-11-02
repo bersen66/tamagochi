@@ -1,4 +1,12 @@
 #include <tamagochi/logic/logic.h>
+#include <tamagochi/hardware/buttons/buttons.h>
+
+void InitConfig(GameConfig *config)
+{
+    config->state = ON_MENU;
+    config->game_over = false;
+    SetupCatLimits(config);
+}
 
 void SetupCatLimits(GameConfig *config)
 {
@@ -27,13 +35,6 @@ void SetupFrogLimits(GameConfig *config)
     config->wash_lim = 0;
 }
 
-void InitConfig(GameConfig *config)
-{
-    config->state = ON_MENU;
-    config->game_over = false;
-    SetupCatLimits(config);
-}
-
 typedef struct CurrentParameters
 {
     int food;
@@ -60,17 +61,34 @@ void ClearParams(Params *p)
     p->wash = 0;
 }
 
+void DoMenuLogic(GameConfig *config)
+{
+    // TODO: Implement Menu logic.
+    config->state = ON_GAME;
+}
+
+void DoGameplayLogic(GameConfig *config, Params *params)
+{
+    ClearParams(params);
+    while (config->game_over)
+    {
+        // TODO: Implement Game logic.
+    }
+    config->state = ON_MENU;
+}
+
 void RunGame(GameConfig *config)
 {
 
-    while (config->game_over)
+    while (1)
     {
         switch (config->state)
         {
         case ON_MENU:
+            DoMenuLogic(config);
             break;
         case ON_GAME:
-            MakeTick(&params);
+            DoGameplayLogic(config, &params);
             break;
         }
     }
