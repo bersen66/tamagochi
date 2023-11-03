@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "bool.h": "c",
-        "constants.h": "c",
-        "functions.h": "c"
-    }
-}
