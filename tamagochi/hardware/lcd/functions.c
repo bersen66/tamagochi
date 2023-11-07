@@ -1,4 +1,5 @@
 #include <tamagochi/hardware/lcd/functions.h>
+#include <tamagochi/hardware/lcd/connections.h>
 #include <string.h>
 
 struct LCDScreen
@@ -11,6 +12,7 @@ struct LCDScreen
 
 static int i = 0;
 static int n = 0;
+
 
 void InitLCD()
 {

@@ -2,15 +2,16 @@
 
 void InitButtons()
 {
-    DDA0_bit = 0; // Set A0 pin as input
-    DDA1_bit = 0; // Set A1 pin as input
-    DDA2_bit = 0; // Set A2 pin as input
-    DDA3_bit = 0; // Set A3 pin as input
+    DDD0_bit = 0; // Set D0 pin as input
+    DDD1_bit = 0; // Set D1 pin as input
+    DDD2_bit = 0; // Set D2 pin as input
+    DDD3_bit = 0; // Set D3 pin as input
 
     DDB0_bit = 0; // Set B0 pin as input
     DDB1_bit = 0; // Set B1 pin as input
     DDB2_bit = 0; // Set B2 pin as input
     DDB3_bit = 0; // Set B3 pin as input
+    DDB7_bit = 0; // Set B3 pin as input
 }
 
 enum ButtonState buttons_states[8] = {
@@ -54,10 +55,10 @@ void UpdateButton(unsigned short *port, unsigned short pin, enum ButtonCode bc)
 
 void PollButtons()
 {
-    UpdateButton(&PINA, 0, BUTTON_OK);
-    UpdateButton(&PINA, 1, BUTTON_LEFT);
-    UpdateButton(&PINA, 2, BUTTON_RIGHT);
-    UpdateButton(&PINA, 3, BUTTON_MENU);
+    UpdateButton(&PIND, 0, BUTTON_RIGHT);
+    UpdateButton(&PIND, 1, BUTTON_OK);
+    UpdateButton(&PIND, 2, BUTTON_LEFT);
+    UpdateButton(&PIND, 3, BUTTON_MENU);
 
     UpdateButton(&PINB, 0, BUTTON_FEED);
     UpdateButton(&PINB, 1, BUTTON_LOVE);

@@ -11,7 +11,7 @@ typedef enum GameState
 typedef enum AnimalType
 {
     CAT = 0,
-    DOG = 1,
+    MONKEY = 1,
     FROG = 2,
 };
 
@@ -19,16 +19,20 @@ typedef struct Config
 {
     enum GameState state;
     enum AnimalType type;
+    char* game_over_reason;
+    
     int food_lim;
     int sleep_lim;
     int love_lim;
     int wash_lim;
+
     bool game_over;
     bool is_sleeping;
+    bool is_fat;
 } GameConfig;
 
 void SetupFrogLimits(GameConfig *config);
 void SetupCatLimits(GameConfig *config);
-void SetupDogLimits(GameConfig *config);
+void SetupMonkeyLimits(GameConfig *config);
 
 void InitConfig(GameConfig *cfg);

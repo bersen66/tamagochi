@@ -1,7 +1,7 @@
 #include <tamagochi/hardware/semisegment/semisegment.h>
 
 unsigned short shifter, portd_index;
-unsigned short portd_array[4];
+unsigned short portd_array[4] = {0, 0, 0, 0};
 
 void InitSemisegments()
 {
@@ -72,6 +72,9 @@ unsigned short MaksOf(char c)
     case 'S':
     case 's':
         return 0x6D;
+    case 'C':
+    case 'c':
+        return 0x39;
     default:
         return 0x00;
     }
@@ -124,4 +127,12 @@ void PrintBathSemisegment()
     portd_array[2] = MaksOf('A');
     portd_array[1] = MaksOf('T');
     portd_array[0] = MaksOf('H');
+}
+
+void PrintCoolSemisegment() 
+{
+    portd_array[3] = MaksOf('C');
+    portd_array[2] = MaksOf('O');
+    portd_array[1] = MaksOf('O');
+    portd_array[0] = MaksOf('L');
 }

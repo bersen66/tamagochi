@@ -5,6 +5,7 @@ void InitConfig(GameConfig *config)
     config->state = ON_MENU;
     config->game_over = false;
     config->is_sleeping = false;
+    config->is_fat = false;
     SetupCatLimits(config);
 }
 
@@ -17,9 +18,9 @@ void SetupCatLimits(GameConfig *config)
     config->wash_lim = 0;
 }
 
-void SetupDogLimits(GameConfig *config)
+void SetupMonkeyLimits(GameConfig *config)
 {
-    config->type = DOG;
+    config->type = MONKEY;
     config->food_lim = 0;
     config->sleep_lim = 0;
     config->love_lim = 0;
