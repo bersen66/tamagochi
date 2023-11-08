@@ -3,8 +3,6 @@
 #include <tamagochi/logic/menu/menu_logic.h>
 #include <tamagochi/logic/gameplay/gameplay_logic.h>
 
-#include <tamagochi/hardware/lcd/lcd.h>
-
 void RunGame(GameConfig *config)
 {
 

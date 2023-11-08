@@ -2,7 +2,7 @@
 
 #include <tamagochi/utils/bool.h>
 
-typedef enum GameState
+typedef enum AppState
 {
     ON_MENU = 0,
     ON_GAME = 1,
@@ -17,7 +17,7 @@ typedef enum AnimalType
 
 typedef struct Config
 {
-    enum GameState state;
+    enum AppState state;
     enum AnimalType type;
     char* game_over_reason;
     

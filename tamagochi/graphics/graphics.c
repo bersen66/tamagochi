@@ -37,13 +37,27 @@ void PrintCat(GameConfig *config)
 {
     if (config->is_sleeping)
     {
-        PrintLCD(">|-W-|<\n");
-        PrintLCD("   Zzzzzzzzz   ");
+        if (config->is_fat)
+        {
+            PrintLCD(">|  -W-  |<\n");
+        }
+        else
+        {
+            PrintLCD(">|-W-|<\n");
+        }
+        PrintLCD("  Zzzzzzzzz  ");
     }
     else
     {
-        PrintLCD("=|'W'|=\n");
-        PrintLCD("     Boris     ");
+        if (config->is_fat)
+        {
+             PrintLCD("=|  ' W '  |=\n");
+        }
+        else
+        {
+            PrintLCD("=|'W'|=\n");
+        }
+        PrintLCD("    Boris    ");
     }
 }
 
@@ -51,13 +65,28 @@ void PrintMonkey(GameConfig *config)
 {
     if (config->is_sleeping)
     {
-        PrintLCD("@(-_-)@\n");
-        PrintLCD("   Zzzzzzzzzz   ");
+        if (config->is_fat)
+        {
+            PrintLCD("@(   -_-   )@\n");
+        }
+        else
+        {
+            PrintLCD("@(-_-)@\n");
+        }
+
+        PrintLCD("  Zzzzzzz ");
     }
     else
     {
-        PrintLCD("@('_')@\n");
-        PrintLCD("     Diego     ");
+        if (config->is_fat)
+        {
+            PrintLCD("@(   '_'   )@\n");
+        }
+        else
+        {
+            PrintLCD("@('_')@\n");
+        }
+        PrintLCD("   Diego   ");
     }
 }
 
@@ -65,13 +94,28 @@ void PrintFrog(GameConfig *config)
 {
     if (config->is_sleeping)
     {
-        PrintLCD("-(+ \")\n");
-        PrintLCD("   Zzzzzzzzz   ");
+        
+        if (config->is_fat)
+        {
+           PrintLCD("-(+     ' )\n");   
+        }
+        else
+        {
+            PrintLCD("-(+  ')\n");
+        }
+        PrintLCD("   Zzzzzzz   ");
     }
     else
     {
-        PrintLCD("C(O \")\n");
-        PrintLCD("     Klava     ");
+        if (config->is_fat)
+        {
+            PrintLCD("C(O       ')\n");
+        }
+        else
+        {
+            PrintLCD("C(O ')\n");
+        }
+        PrintLCD("   Klava   ");
     }
 }
 
@@ -111,13 +155,13 @@ void RenderGameFrame(GameConfig *config, GameplayParameters *params)
     switch (config->type)
     {
     case CAT:
-        PrintLCD("=|'W'|=\n");
+        PrintCat(config);
         break;
     case MONKEY:
-        PrintLCD("@('_')@\n");
+        PrintMonkey(config);
         break;
     case FROG:
-        PrintLCD("C(O \")\n");
+        PrintFrog(config);        
         break;
     }
 }

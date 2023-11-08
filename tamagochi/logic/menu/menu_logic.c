@@ -6,56 +6,100 @@
 #include <tamagochi/hardware/lcd/lcd.h>
 
 unsigned short cnt;
+unsigned short prev_cnt;
+extern ButtonOldstates btns;
+
 void DoMenuLogic(GameConfig *config)
 {
-    
-    
-    /*
     cnt = 0;
+    prev_cnt = 0;
+
     InitConfig(config);
-
     RenderMenuFrame(config);
-    do
+
+    ClearButtonOldstates();
+
+    while (1)
     {
-        
-        PollButtons();
-        
-        if (ButtonIsDown(BUTTON_LEFT))
         {
-            cnt = (cnt + 1) % 3;
-            
-        }
-
-        if (ButtonIsReleased(BUTTON_RIGHT))
-        {
-            if (cnt == 0)
+            if (Button(&PINB, 0, 1, 1))
             {
-                cnt = 2;
+                btns.ok = 1;
             }
-            else
+
+            if (Button(&PINB, 1, 1, 1))
             {
-                cnt--;
+                btns.left = 1;
+            }
+
+            if (Button(&PINB, 2, 1, 1))
+            {
+                btns.right = 1;
+            }
+
+            if (Button(&PINB, 3, 1, 1))
+            {
+                btns.menu = 1;
+            }
+
+            if (btns.ok && Button(&PINB, 0, 1, 0))
+            {
+                btns.ok = 0;
+                break;
+            }
+
+            if (btns.left && Button(&PINB, 1, 1, 0))
+            {
+                btns.left = 0;
+                prev_cnt = cnt;
+                if (cnt == 0)
+                {
+                    cnt = 2;
+                }
+                else
+                {
+                    cnt--;
+                }
+                config->type = cnt;
+            }
+
+            if (btns.right && Button(&PINB, 2, 1, 0))
+            {
+                btns.right = 0;
+                prev_cnt = cnt;
+                cnt = (cnt + 1) % 3;
+                config->type = cnt;
+            }
+
+            if (btns.menu && Button(&PINB, 3, 1, 0))
+            {
+                btns.menu = 0;
+                prev_cnt = cnt;
+                cnt = 0;
+                config->type = cnt;
             }
         }
 
-        if (ButtonIsReleased(BUTTON_MENU))
+        if (prev_cnt != cnt)
         {
-            cnt = 0;
+            switch (cnt)
+            {
+            case CAT:
+                SetupCatLimits(config);
+                break;
+            case MONKEY:
+                SetupMonkeyLimits(config);
+                break;
+            case FROG:
+                SetupFrogLimits(config);
+                break;
+            }
+            RenderMenuFrame(config);
         }
 
-        switch (cnt)
-        {
-        case 0:
-            SetupCatLimits(config);
-            break;
-        case 1:
-            SetupMonkeyLimits(config);
-            break;
-        case 2:
-            SetupFrogLimits(config);
-            break;
-        }
-    } while (ButtonIsReleased(BUTTON_OK));
-    */
-   // config->state = ON_GAME;
+        prev_cnt = cnt;
+        Sleep(100 * MILLISECOND);
+    }
+
+    config->state = ON_GAME;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <tamagochi/logic/game_config.h>
 #include <tamagochi/logic/gameplay/gameplay_parameters.h> 
+#include <tamagochi/hardware/semisegment/semisegment.h>
 
 void RenderMenuFrame(GameConfig* config);
 
