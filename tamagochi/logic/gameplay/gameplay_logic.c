@@ -19,7 +19,7 @@ bool HasGameOverSituation(GameConfig *config, GameplayParameters *parameters)
     else if (params.love <= 0)
     {
         config->game_over = true;
-        config->game_over_reason = "   Loneliness";
+        config->game_over_reason = "  Loneliness";
     }
     else if (params.wash <= 0)
     {
@@ -29,7 +29,7 @@ bool HasGameOverSituation(GameConfig *config, GameplayParameters *parameters)
     else if (params.sleep <= 0)
     {
         config->game_over = true;
-        config->game_over_reason = "Sleepiness";
+        config->game_over_reason = "   Sleepiness";
     }
 
     return config->game_over;
@@ -61,6 +61,8 @@ void ClearActivities(AnimalActivity *act)
     act->Wash = 0;
 }
 
+unsigned long i = 0;
+#define LIMIT 1000
 void DoGameplayLogic(GameConfig *config)
 {
     InitGameplayParameters(config, &params);
@@ -69,9 +71,8 @@ void DoGameplayLogic(GameConfig *config)
 
     RenderGameFrame(config, &params);
     while (!HasGameOverSituation(config, &params))
-    {
-        MakeTick(&params);
-
+    {       
+        i++;  
         {
             if (Button(&PIND, 0, 1, 1))
             {
@@ -106,11 +107,21 @@ void DoGameplayLogic(GameConfig *config)
                     activity.Eat = !activity.Eat;
                     if (activity.Eat) 
                     {
+                        RenderGameFrame(config, &params);
+                        TCCR0 = 0x03;
                         PrintEatSemisegment();
+                        Delay_ms(1000);
+                        TCCR0 = 0x00;
+                        PORTA = 0;
                     } 
                     else
                     {
-                        ClearSemisegment();
+                        RenderGameFrame(config, &params);
+                        //TCCR0 = 0x03;
+                        //ClearSemisegment();
+                        //Delay_ms(1000);
+                        //TCCR0 = 0x00;
+                        PORTA = 0;
                     }
                 }
             }
@@ -142,12 +153,23 @@ void DoGameplayLogic(GameConfig *config)
                     if (activity.Sleep) 
                     {
                         config->is_sleeping = true;
+                        RenderGameFrame(config, &params);
+                        TCCR0 = 0x03;
                         PrintRestSemisegment();
+                        Sleep(1000);
+                        TCCR0 = 0x00;
+                        PORTA = 1;
+                        PORTC = 0x79;
                     } 
                     else
                     {
                         config->is_sleeping = false;
-                        ClearSemisegment();
+                        RenderGameFrame(config, &params);
+                        //TCCR0 = 0x03;
+                        //ClearSemisegment();
+                        //Sleep(1000);
+                        //TCCR0 = 0x00;
+                        PORTA = 0;
                     }
                 }
             }
@@ -164,22 +186,37 @@ void DoGameplayLogic(GameConfig *config)
         if (activity.Eat)
         {
             //PrintEatSemisegment();
-            params.food += 2;
+            if (i == LIMIT)
+            {
+                params.food += 2;
+            }
+            
         }
         else if (activity.Pet)
         {
             //PrintLoveSemisegment();
-            params.love += 2;
+            if (i == LIMIT)
+            {
+                params.love += 2;
+            }
+            
         }
         else if (activity.Sleep)
         {
             //PrintRestSemisegment();
-            params.sleep += 2;
+            if (i == LIMIT)
+            {
+                params.sleep += 2;
+            }
         }
         else if (activity.Wash)
         {
             //PrintBathSemisegment();
-            params.wash += 2;
+            if (i == LIMIT)
+            {
+                params.wash += 2;
+            }
+            
         }
 
         
@@ -193,8 +230,13 @@ void DoGameplayLogic(GameConfig *config)
         }
 
 
-        RenderGameFrame(config, &params);
-        Sleep(300 * MILLISECOND);
+        if (i == LIMIT)
+        {
+            MakeTick(&params);
+            i = 0;
+        }
+        //RenderGameFrame(config, &params);
+        //Sleep(300 * MILLISECOND); //�������� �� ������� ����������
     }
 
     DisplayGameOver(config->game_over_reason);

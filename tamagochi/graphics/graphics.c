@@ -8,7 +8,6 @@
 
 void RenderMenuFrame(GameConfig *config)
 {
-
     ClearLCD();
     switch (config->type)
     {
@@ -25,6 +24,7 @@ void RenderMenuFrame(GameConfig *config)
         PrintLCD("   <-Klava->");
         break;
     }
+    PORTA = 0;
 }
 
 void DisplayGameOver(char reason[16])
@@ -40,25 +40,25 @@ void PrintCat(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD(">|  -W-  |<\n");
+            PrintLCD("  >|  -W-  |<\n");
         }
         else
         {
-            PrintLCD(">|-W-|<\n");
+            PrintLCD("    >|-W-|<\n");
         }
-        PrintLCD("  Zzzzzzzzz  ");
+        PrintLCD("   Zzzzzzzzz  ");
     }
     else
     {
         if (config->is_fat)
         {
-            PrintLCD("=|  ' W '  |=\n");
+            PrintLCD("  =|  ' W '  |=\n");
         }
         else
         {
-            PrintLCD("=|'W'|=\n");
+            PrintLCD("    =|'W'|=\n");
         }
-        PrintLCD("    Boris    ");
+        PrintLCD("     Boris    ");
     }
 }
 
@@ -68,11 +68,11 @@ void PrintMonkey(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD("@(   -_-   )@\n");
+            PrintLCD("  @(   -_-   )@\n");
         }
         else
         {
-            PrintLCD("@(-_-)@\n");
+            PrintLCD("    @(-_-)@\n");
         }
 
         PrintLCD("  Zzzzzzz ");
@@ -81,11 +81,11 @@ void PrintMonkey(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD("@(   '_'   )@\n");
+            PrintLCD("  @(   '_'   )@\n");
         }
         else
         {
-            PrintLCD("@('_')@\n");
+            PrintLCD("    @('_')@\n");
         }
         PrintLCD("   Diego   ");
     }
@@ -98,11 +98,11 @@ void PrintFrog(GameConfig *config)
 
         if (config->is_fat)
         {
-            PrintLCD("-(+     ' )\n");
+            PrintLCD("  -(+     ' )\n");
         }
         else
         {
-            PrintLCD("-(+  ')\n");
+            PrintLCD("    -(+  ')\n");
         }
         PrintLCD("   Zzzzzzz   ");
     }
@@ -110,11 +110,11 @@ void PrintFrog(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD("C(O       ')\n");
+            PrintLCD("  C(O       ')\n");
         }
         else
         {
-            PrintLCD("C(O ')\n");
+            PrintLCD("    C(O ')\n");
         }
         PrintLCD("   Klava   ");
     }
@@ -151,7 +151,6 @@ void NeedAction(GameConfig *config, GameplayParameters *params)
 
 void RenderGameFrame(GameConfig *config, GameplayParameters *params)
 {
-
     ClearLCD();
     switch (config->type)
     {

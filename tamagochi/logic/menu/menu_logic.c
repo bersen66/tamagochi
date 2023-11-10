@@ -18,6 +18,11 @@ void DoMenuLogic(GameConfig *config)
 
     InitConfig(config);
     RenderMenuFrame(config);
+    TCCR0 = 0x03;
+    ClearSemisegment();
+    Delay_ms(1000);
+    TCCR0 = 0x00;
+    PORTA = 0;
 
     ClearButtonOldstates();
 
@@ -100,7 +105,7 @@ void DoMenuLogic(GameConfig *config)
         }
 
         prev_cnt = cnt;
-        Sleep(100 * MILLISECOND);
+        //Sleep(100 * MILLISECOND);
     }
 
     config->state = ON_GAME;

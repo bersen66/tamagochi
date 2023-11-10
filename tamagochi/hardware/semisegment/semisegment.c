@@ -8,9 +8,8 @@ void InitSemisegments()
 
     //DDRA=0x0f;
     //PORTA=0;
-    DDRA = 0xff;
-    PORTA = 0x00;
-    DDRC = 0x00;
+    //DDRC = 0xff;
+    //PORTC = 0x00;
     // DDRD=0xff;
     // PORTD=0;
 
@@ -85,7 +84,7 @@ unsigned short MaksOf(char c)
 void Timer0Overflow_ISR() org IVT_ADDR_TIMER0_OVF
 {
     PORTA = 0;                        // Turn off all 7seg displays
-    PORTA = portd_array[portd_index]; // bring appropriate value to PORTC
+    PORTC = portd_array[portd_index]; // bring appropriate value to PORTC
     PORTA = shifter;                  // turn on appropriate 7seg. display
 
     //move shifter to next digit
