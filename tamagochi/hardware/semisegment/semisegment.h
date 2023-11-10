@@ -15,3 +15,5 @@ void PrintRestSemisegment();
 void PrintBathSemisegment();
 
 void PrintCoolSemisegment();
+
+void ClearSemisegment();

@@ -9,6 +9,8 @@ unsigned short cnt;
 unsigned short prev_cnt;
 extern ButtonOldstates btns;
 
+
+#define TM 1
 void DoMenuLogic(GameConfig *config)
 {
     cnt = 0;
@@ -22,33 +24,33 @@ void DoMenuLogic(GameConfig *config)
     while (1)
     {
         {
-            if (Button(&PINB, 0, 1, 1))
+            if (Button(&PINB, 0, TM, 1))
             {
                 btns.ok = 1;
             }
 
-            if (Button(&PINB, 1, 1, 1))
+            if (Button(&PINB, 1, TM, 1))
             {
                 btns.left = 1;
             }
 
-            if (Button(&PINB, 2, 1, 1))
+            if (Button(&PINB, 2, TM, 1))
             {
                 btns.right = 1;
             }
 
-            if (Button(&PINB, 3, 1, 1))
+            if (Button(&PINB, 3, TM, 1))
             {
                 btns.menu = 1;
             }
 
-            if (btns.ok && Button(&PINB, 0, 1, 0))
+            if (btns.ok && Button(&PINB, 0, TM, 0))
             {
                 btns.ok = 0;
                 break;
             }
 
-            if (btns.left && Button(&PINB, 1, 1, 0))
+            if (btns.left && Button(&PINB, 1, TM, 0))
             {
                 btns.left = 0;
                 prev_cnt = cnt;
@@ -63,7 +65,7 @@ void DoMenuLogic(GameConfig *config)
                 config->type = cnt;
             }
 
-            if (btns.right && Button(&PINB, 2, 1, 0))
+            if (btns.right && Button(&PINB, 2, TM, 0))
             {
                 btns.right = 0;
                 prev_cnt = cnt;
@@ -71,7 +73,7 @@ void DoMenuLogic(GameConfig *config)
                 config->type = cnt;
             }
 
-            if (btns.menu && Button(&PINB, 3, 1, 0))
+            if (btns.menu && Button(&PINB, 3, TM, 0))
             {
                 btns.menu = 0;
                 prev_cnt = cnt;

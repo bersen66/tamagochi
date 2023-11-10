@@ -4,13 +4,15 @@ unsigned short shifter, portd_index;
 unsigned short portd_array[4] = {0, 0, 0, 0};
 
 void InitSemisegments()
-{
-    PORTA = 0;
-    PORTC = 0;
+{   
 
-    TCCR0 = 0x03;   // ClkI/O/64 (From prescaler)
-    SREG_I_bit = 1; // Interrupt enable
-    TOIE0_bit = 1;  // Timer0 overflow interrupt enable
+    //DDRA=0x0f;
+    //PORTA=0;
+    DDRA = 0xff;
+    PORTA = 0x00;
+    DDRC = 0x00;
+    // DDRD=0xff;
+    // PORTD=0;
 
     portd_index = 0;
     shifter = 1;
@@ -83,10 +85,10 @@ unsigned short MaksOf(char c)
 void Timer0Overflow_ISR() org IVT_ADDR_TIMER0_OVF
 {
     PORTA = 0;                        // Turn off all 7seg displays
-    PORTC = portd_array[portd_index]; // bring appropriate value to PORTC
+    PORTA = portd_array[portd_index]; // bring appropriate value to PORTC
     PORTA = shifter;                  // turn on appropriate 7seg. display
 
-    // move shifter to next digit
+    //move shifter to next digit
     shifter <<= 1;
     if (shifter > 8u)
         shifter = 1;
@@ -135,4 +137,12 @@ void PrintCoolSemisegment()
     portd_array[2] = MaksOf('O');
     portd_array[1] = MaksOf('O');
     portd_array[0] = MaksOf('L');
+}
+
+void ClearSemisegment()
+{
+    portd_array[3] = MaksOf(' ');
+    portd_array[2] = MaksOf(' ');
+    portd_array[1] = MaksOf(' ');
+    portd_array[0] = MaksOf(' ');  
 }

@@ -8,20 +8,21 @@
 
 void RenderMenuFrame(GameConfig *config)
 {
+
     ClearLCD();
     switch (config->type)
     {
     case CAT:
-        PrintLCD("=|'W'|=\n");
-        PrintLCD("  <-Boris->  ");
+        PrintLCD("    =|'W'|=\n");
+        PrintLCD("   <-Boris->   ");
         break;
     case MONKEY:
-        PrintLCD("@('_')@\n");
-        PrintLCD("  <- Diego ->  ");
+        PrintLCD("    @('_')@\n");
+        PrintLCD("   <-Diego->");
         break;
     case FROG:
-        PrintLCD("C(O  )\n");
-        PrintLCD("  <- Klava -> ");
+        PrintLCD("     C(O  )\n");
+        PrintLCD("   <-Klava->");
         break;
     }
 }
@@ -29,7 +30,7 @@ void RenderMenuFrame(GameConfig *config)
 void DisplayGameOver(char reason[16])
 {
     ClearLCD();
-    PrintLCD("  GAME OVER.  ");
+    PrintLCD("   GAME OVER.  \n");
     PrintLCD(reason);
 }
 
@@ -51,7 +52,7 @@ void PrintCat(GameConfig *config)
     {
         if (config->is_fat)
         {
-             PrintLCD("=|  ' W '  |=\n");
+            PrintLCD("=|  ' W '  |=\n");
         }
         else
         {
@@ -94,10 +95,10 @@ void PrintFrog(GameConfig *config)
 {
     if (config->is_sleeping)
     {
-        
+
         if (config->is_fat)
         {
-           PrintLCD("-(+     ' )\n");   
+            PrintLCD("-(+     ' )\n");
         }
         else
         {
@@ -161,7 +162,7 @@ void RenderGameFrame(GameConfig *config, GameplayParameters *params)
         PrintMonkey(config);
         break;
     case FROG:
-        PrintFrog(config);        
+        PrintFrog(config);
         break;
     }
 }

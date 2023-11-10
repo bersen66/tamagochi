@@ -8,6 +8,10 @@
 
 void InitHardware()
 {
+    TCCR0 = 0x02;   // ClkI/O/64 (From prescaler)
+    SREG_I_bit = 1; // Interrupt enable
+    //TOIE0_bit = 1;  // Timer0 overflow interrupt enable
+
     //InitSemisegments();
     InitButtons();
     InitLCD();

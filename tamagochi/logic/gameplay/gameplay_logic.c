@@ -14,17 +14,17 @@ bool HasGameOverSituation(GameConfig *config, GameplayParameters *parameters)
     if (params.food <= 0)
     {
         config->game_over = true;
-        config->game_over_reason = "Hunger";
+        config->game_over_reason = "     Hunger";
     }
     else if (params.love <= 0)
     {
         config->game_over = true;
-        config->game_over_reason = "Loneliness";
+        config->game_over_reason = "   Loneliness";
     }
     else if (params.wash <= 0)
     {
         config->game_over = true;
-        config->game_over_reason = "Dirt";
+        config->game_over_reason = "     Dirt";
     }
     else if (params.sleep <= 0)
     {
@@ -44,6 +44,14 @@ typedef struct AnimalActivity
 } AnimalActivity;
 
 AnimalActivity activity;
+
+typedef struct ActivityPrinted 
+{
+    unsigned short Eat : 1;
+    unsigned short Pet : 1;
+    unsigned short Sleep : 1;
+    unsigned short Wash : 1;
+} ActivityPrinted;
 
 void ClearActivities(AnimalActivity *act)
 {
@@ -96,6 +104,14 @@ void DoGameplayLogic(GameConfig *config)
                 if (activity.Pet == 0 && activity.Sleep == 0 && activity.Wash == 0)
                 {
                     activity.Eat = !activity.Eat;
+                    if (activity.Eat) 
+                    {
+                        PrintEatSemisegment();
+                    } 
+                    else
+                    {
+                        ClearSemisegment();
+                    }
                 }
             }
 
@@ -123,13 +139,15 @@ void DoGameplayLogic(GameConfig *config)
                 if (activity.Eat == 0 && activity.Pet == 0 && activity.Wash == 0)
                 {
                     activity.Sleep = !activity.Sleep;
-                    if (activity.Sleep == 0)
-                    {
-                        config->is_sleeping = false;
-                    }
-                    else
+                    if (activity.Sleep) 
                     {
                         config->is_sleeping = true;
+                        PrintRestSemisegment();
+                    } 
+                    else
+                    {
+                        config->is_sleeping = false;
+                        ClearSemisegment();
                     }
                 }
             }
@@ -137,7 +155,7 @@ void DoGameplayLogic(GameConfig *config)
             if (btns.menu && Button(&PINB, 3, 1, 0))
             {
                 btns.menu = 0;
-                config->game_over_reason = "U pressed menu";
+                config->game_over_reason = " U pressed menu";
                 config->game_over = true;
                 break;
             }
@@ -145,23 +163,23 @@ void DoGameplayLogic(GameConfig *config)
 
         if (activity.Eat)
         {
-            PrintEatSemisegment();
-            params.food += 30;
+            //PrintEatSemisegment();
+            params.food += 2;
         }
         else if (activity.Pet)
         {
-            PrintLoveSemisegment();
-            params.love += 30;
+            //PrintLoveSemisegment();
+            params.love += 2;
         }
         else if (activity.Sleep)
         {
-            PrintRestSemisegment();
-            params.sleep += 30;
+            //PrintRestSemisegment();
+            params.sleep += 2;
         }
         else if (activity.Wash)
         {
-            PrintBathSemisegment();
-            params.wash += 30;
+            //PrintBathSemisegment();
+            params.wash += 2;
         }
 
         
@@ -189,7 +207,7 @@ void DoGameplayLogic(GameConfig *config)
 
         if (Button(&PINB, 3, 1, 0))
         {
-            btns.ok = 0;
+            btns.menu = 0;
         }
         ///////////////////////////////////////////////////////////////////
         if (btns.ok && Button(&PINB, 0, 1, 0))

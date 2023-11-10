@@ -41,16 +41,3 @@ static inline void ClearButtonOldstates()
     btns.wash = 0;
 }
 
-// Хз будет ли работать
-static inline void PollButtons()
-{
-    btns.ok = PINB0_bit;
-    btns.left = PINB1_bit;
-    btns.right = PINB2_bit;
-    btns.menu = PINB3_bit;
-
-    btns.feed = PIND0_bit;
-    btns.love = PIND1_bit;
-    btns.sleep = PIND2_bit;
-    btns.wash = PIND3_bit;
-}
