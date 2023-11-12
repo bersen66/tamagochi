@@ -51,7 +51,7 @@ void UpdateSignals(SignalSet *signals, GameConfig *cfg, GameplayParameters *para
     }
 }
 
-void Hunger(SignalLvl lvl)
+void PlayHungerSignal(SignalLvl lvl)
 {
     switch (lvl)
     {
@@ -72,7 +72,7 @@ void Hunger(SignalLvl lvl)
     }
 }
 
-void Love(SignalLvl lvl)
+void PlayLoveSignal(SignalLvl lvl)
 {
     switch (lvl)
     {
@@ -93,7 +93,7 @@ void Love(SignalLvl lvl)
     }
 }
 
-void Wash(SignalLvl lvl)
+void PlayWashSignal(SignalLvl lvl)
 {
     switch (lvl)
     {
@@ -114,7 +114,7 @@ void Wash(SignalLvl lvl)
     }
 }
 
-void Sleep(SignalLvl lvl)
+void PlaySleepSignal(SignalLvl lvl)
 {
     switch (lvl)
     {
@@ -137,8 +137,8 @@ void Sleep(SignalLvl lvl)
 
 void Signalize(SignalSet *signals)
 {
-    Hunger(signals->flags.hunger);
-    Love(signals->flags.love);
-    Wash(signals->flags.wash);
-    Sleep(signals->flags.sleep);
+    PlayHungerSignal(signals->flags.hunger);
+    PlayLoveSignal(signals->flags.love);
+    PlayWashSignal(signals->flags.wash);
+    PlaySleepSignal(signals->flags.sleep);
 }

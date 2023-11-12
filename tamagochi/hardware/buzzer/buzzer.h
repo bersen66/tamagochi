@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hardware/time/constants.h>
+#include <tamagochi/hardware/time/constants.h>
 
 void InitBuzzer();
 

@@ -125,10 +125,6 @@ void PollButtons(GameConfig *config, GameplayParameters *params)
     }
 }
 
-
-
-
-
 void RunGameplayLogic(GameConfig *config)
 {
     InitGameplayParameters(config, &params);
