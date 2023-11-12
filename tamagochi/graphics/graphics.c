@@ -1,11 +1,15 @@
 #include <tamagochi/graphics/graphics.h>
 #include <tamagochi/hardware/lcd/lcd.h>
 #include <tamagochi/hardware/semisegment/semisegment.h>
+#include <tamagochi/graphics/textures.h>
 
-/* c(o ") -- frog */
-/* =|'W'|= -- cat */
-/* @('_')@ -- monkey */
 
+void DoRenderMenuFrame(const char** texture_pack)
+{
+    ClearLCD();
+    PrintLCD(texture_pack[SLIM_BASIC]);
+    PrintLCD(texture_pack[MENU_NAME]);
+}
 
 void RenderMenuFrame(GameConfig *config)
 {
@@ -13,16 +17,13 @@ void RenderMenuFrame(GameConfig *config)
     switch (config->type)
     {
     case CAT:
-        PrintLCD("    =|'W'|=\n");
-        PrintLCD("   <-Boris->   ");
+        DoRenderMenuFrame(CAT_TEXTURES);
         break;
     case MONKEY:
-        PrintLCD("    @('_')@\n");
-        PrintLCD("   <-Diego->");
+        DoRenderMenuFrame(MONKE_TEXTURES);
         break;
     case FROG:
-        PrintLCD("    C(O   )\n");
-        PrintLCD("   <-Klava->");
+        DoRenderMenuFrame(FROG_TEXTURES);
         break;
     }
     PORTA = 0;
@@ -35,75 +36,18 @@ void DisplayGameOver(char reason[16])
     PrintLCD(reason);
 }
 
-void PrintCat(GameConfig *config)
-{
-    if (config->activity.Sleep)
-    {
-        if (config->is_fat)
-        {
-            PrintLCD(">|  -W-  |<\n");
-        }
-        else
-        {
-            PrintLCD(">|-W-|<\n");
-        }
-        PrintLCD("  Zzzzzzzzz  ");
-    }
-    else
-    {
-        if (config->is_fat)
-        {
-            PrintLCD("=|  ' W '  |=\n");
-        }
-        else
-        {
-            PrintLCD("=|'W'|=\n");
-        }
-        PrintLCD("    Boris    ");
-    }
-}
-
-void PrintMonkey(GameConfig *config)
-{
-    if (config->activity.Sleep)
-    {
-        if (config->is_fat)
-        {
-            PrintLCD("@(   -_-   )@\n");
-        }
-        else
-        {
-            PrintLCD("@(-_-)@\n");
-        }
-
-        PrintLCD("  Zzzzzzz ");
-    }
-    else
-    {
-        if (config->is_fat)
-        {
-            PrintLCD("@(   '_'   )@\n");
-        }
-        else
-        {
-            PrintLCD("@('_')@\n");
-        }
-        PrintLCD("   Diego   ");
-    }
-}
-
-void PrintFrog(GameConfig *config)
+void RenderAnimalInGameplay(const char **texture_pack, GameConfig *config)
 {
     if (config->activity.Sleep)
     {
 
         if (config->is_fat)
         {
-            PrintLCD("-(+     ' )\n");
+            PrintLCD(texture_pack[FAT_SLEEP]);
         }
         else
         {
-            PrintLCD("-(+  ')\n");
+            PrintLCD(texture_pack[SLIM_SLEEP]);
         }
         PrintLCD("   Zzzzzzz   ");
     }
@@ -111,14 +55,29 @@ void PrintFrog(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD("C(O       ')\n");
+            PrintLCD(texture_pack[FAT_BASIC]);
         }
         else
         {
-            PrintLCD("C(O ')\n");
+            PrintLCD(texture_pack[SLIM_BASIC]);
         }
-        PrintLCD("   Klava   ");
+        PrintLCD(texture_pack[MENU_NAME]);
     }
+}
+
+void PrintCat(GameConfig *config)
+{
+    RenderAnimalInGameplay(CAT_TEXTURES, config);
+}
+
+void PrintMonkey(GameConfig *config)
+{
+    RenderAnimalInGameplay(MONKE_TEXTURES, config);
+}
+
+void PrintFrog(GameConfig *config)
+{
+    RenderAnimalInGameplay(FROG_TEXTURES, config);
 }
 
 void RenderGameFrame(GameConfig *config, GameplayParameters *params)
