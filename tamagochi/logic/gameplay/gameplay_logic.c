@@ -5,8 +5,10 @@
 #include <tamagochi/logic/gameplay/gameplay_parameters.h>
 #include <tamagochi/graphics/graphics.h>
 #include <tamagochi/hardware/time/time.h>
+#include <tamagochi/logic/gameplay/signal_set.h>
 
 GameplayParameters params;
+SignalSet signals;
 
 bool HasGameOverSituation(GameConfig *config, GameplayParameters *parameters)
 {
@@ -123,9 +125,14 @@ void PollButtons(GameConfig *config, GameplayParameters *params)
     }
 }
 
+
+
+
+
 void RunGameplayLogic(GameConfig *config)
 {
     InitGameplayParameters(config, &params);
+    InintSignals(&signals);
 
     ClearButtonOldstates();
 
@@ -143,6 +150,12 @@ void RunGameplayLogic(GameConfig *config)
             config->allow_rerendering = false;
         }
 
+        UpdateSignals(&signals, config, &params);
+        if (config->allow_signalization)
+        {
+            Signalize(&signals);
+            config->allow_signalization = false;
+        }
     } while (!HasGameOverSituation(config, &params));
 
     config->state = ON_GAME_OVER;

@@ -57,6 +57,7 @@ typedef struct Config
     bool is_game_over;
     bool is_fat;
     bool allow_rerendering;
+    bool allow_signalization;
 } GameConfig;
 
 // Functions that configure game config for specific animal

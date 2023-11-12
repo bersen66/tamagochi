@@ -7,14 +7,14 @@
  */
 typedef struct ButtonOldstates
 {
-    unsigned short ok : 1;
-    unsigned short left : 1;
-    unsigned short right : 1;
-    unsigned short menu : 1;
-    unsigned short feed : 1;
-    unsigned short love : 1;
-    unsigned short sleep : 1;
-    unsigned short wash : 1;
+    unsigned char ok : 1;
+    unsigned char left : 1;
+    unsigned char right : 1;
+    unsigned char menu : 1;
+    unsigned char feed : 1;
+    unsigned char love : 1;
+    unsigned char sleep : 1;
+    unsigned char wash : 1;
 } ButtonOldstates;
 
 extern ButtonOldstates btns;

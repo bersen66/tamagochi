@@ -9,6 +9,7 @@ void InitConfig(GameConfig *config)
     config->state = ON_MENU;
     config->is_game_over = false;
     config->allow_rerendering = true;
+    config->allow_signalization = false;
     config->is_fat = false;
 
     SetupCatLimits(config);
