@@ -7,263 +7,143 @@
 #include <tamagochi/hardware/time/time.h>
 
 GameplayParameters params;
-extern ButtonOldstates btns;
 
 bool HasGameOverSituation(GameConfig *config, GameplayParameters *parameters)
 {
     if (params.food <= 0)
     {
-        config->game_over = true;
+        config->is_game_over = true;
         config->game_over_reason = "     Hunger";
     }
     else if (params.love <= 0)
     {
-        config->game_over = true;
-        config->game_over_reason = "  Loneliness";
+        config->is_game_over = true;
+        config->game_over_reason = "   Loneliness";
     }
     else if (params.wash <= 0)
     {
-        config->game_over = true;
+        config->is_game_over = true;
         config->game_over_reason = "     Dirt";
     }
     else if (params.sleep <= 0)
     {
-        config->game_over = true;
-        config->game_over_reason = "   Sleepiness";
+        config->is_game_over = true;
+        config->game_over_reason = "Sleepiness";
     }
 
-    return config->game_over;
+    return config->is_game_over;
 }
 
-typedef struct AnimalActivity
+void UpdateFatness(GameConfig *config, GameplayParameters *params)
 {
-    unsigned short Eat : 1;
-    unsigned short Pet : 1;
-    unsigned short Sleep : 1;
-    unsigned short Wash : 1;
-} AnimalActivity;
-
-AnimalActivity activity;
-
-typedef struct ActivityPrinted 
-{
-    unsigned short Eat : 1;
-    unsigned short Pet : 1;
-    unsigned short Sleep : 1;
-    unsigned short Wash : 1;
-} ActivityPrinted;
-
-void ClearActivities(AnimalActivity *act)
-{
-    act->Eat = 0;
-    act->Pet = 0;
-    act->Sleep = 0;
-    act->Wash = 0;
+    if (!config->is_fat && params->food > config->food_lim)
+    {
+        config->is_fat = true;
+        config->allow_rerendering = true;
+    }
+    if (config->is_fat && params->food < config->food_lim)
+    {
+        config->is_fat = false;
+        config->allow_rerendering = true;
+    }
 }
 
-unsigned long i = 0;
-#define LIMIT 1000
-void DoGameplayLogic(GameConfig *config)
+void PollButtons(GameConfig *config, GameplayParameters *params)
+{
+    if (Button(&PIND, 0, 1, 1))
+    {
+        btns.feed = 1;
+    }
+
+    if (Button(&PIND, 1, 1, 1))
+    {
+        btns.love = 1;
+    }
+
+    if (Button(&PIND, 2, 1, 1))
+    {
+        btns.wash = 1;
+    }
+
+    if (Button(&PIND, 3, 1, 1))
+    {
+        btns.sleep = 1;
+    }
+
+    if (Button(&PINB, 3, 1, 1))
+    {
+        btns.menu = 1;
+    }
+
+    if (btns.feed && Button(&PIND, 0, 1, 0))
+    {
+        btns.feed = 0;
+        if (config->activity.Love == 0 && config->activity.Sleep == 0 && config->activity.Wash == 0)
+        {
+            config->activity.Eat = !config->activity.Eat;
+            config->allow_rerendering = true;
+        }
+    }
+
+    if (btns.love && Button(&PIND, 1, 1, 0))
+    {
+        btns.love = 0;
+        if (config->activity.Eat == 0 && config->activity.Sleep == 0 && config->activity.Wash == 0)
+        {
+            config->activity.Love = !config->activity.Love;
+            config->allow_rerendering = true;
+        }
+    }
+
+    if (btns.wash && Button(&PIND, 2, 1, 0))
+    {
+        btns.wash = 0;
+        if (config->activity.Eat == 0 && config->activity.Love == 0 && config->activity.Sleep == 0)
+        {
+            config->activity.Wash = !config->activity.Wash;
+            config->allow_rerendering = true;
+        }
+    }
+
+    if (btns.sleep && Button(&PIND, 3, 1, 0))
+    {
+        btns.sleep = 0;
+        if (config->activity.Eat == 0 && config->activity.Love == 0 && config->activity.Wash == 0)
+        {
+            config->activity.Sleep = !config->activity.Sleep;
+            config->allow_rerendering = true;
+        }
+    }
+
+    if (btns.menu && Button(&PINB, 3, 1, 0))
+    {
+        btns.menu = 0;
+        config->game_over_reason = " U pressed menu";
+        config->is_game_over = true;
+    }
+}
+
+void RunGameplayLogic(GameConfig *config)
 {
     InitGameplayParameters(config, &params);
+
     ClearButtonOldstates();
-    ClearActivities(&activity);
 
     RenderGameFrame(config, &params);
-    while (!HasGameOverSituation(config, &params))
-    {       
-        i++;  
-        {
-            if (Button(&PIND, 0, 1, 1))
-            {
-                btns.feed = 1;
-            }
 
-            if (Button(&PIND, 1, 1, 1))
-            {
-                btns.love = 1;
-            }
-
-            if (Button(&PIND, 2, 1, 1))
-            {
-                btns.wash = 1;
-            }
-
-            if (Button(&PIND, 3, 1, 1))
-            {
-                btns.sleep = 1;
-            }
-
-            if (Button(&PINB, 3, 1, 1))
-            {
-                btns.menu = 1;
-            }
-            ///////////////////////////////////////////////////////////////////
-            if (btns.feed && Button(&PIND, 0, 1, 0))
-            {
-                btns.feed = 0;
-                if (activity.Pet == 0 && activity.Sleep == 0 && activity.Wash == 0)
-                {
-                    activity.Eat = !activity.Eat;
-                    if (activity.Eat) 
-                    {
-                        RenderGameFrame(config, &params);
-                        TCCR0 = 0x03;
-                        PrintEatSemisegment();
-                        Delay_ms(1000);
-                        TCCR0 = 0x00;
-                        PORTA = 0;
-                    } 
-                    else
-                    {
-                        RenderGameFrame(config, &params);
-                        //TCCR0 = 0x03;
-                        //ClearSemisegment();
-                        //Delay_ms(1000);
-                        //TCCR0 = 0x00;
-                        PORTA = 0;
-                    }
-                }
-            }
-
-            if (btns.love && Button(&PIND, 1, 1, 0))
-            {
-                btns.love = 0;
-                if (activity.Eat == 0 && activity.Sleep == 0 && activity.Wash == 0)
-                {
-                    activity.Pet = !activity.Pet;
-                }
-            }
-
-            if (btns.wash && Button(&PIND, 2, 1, 0))
-            {
-                btns.wash = 0;
-                if (activity.Eat == 0 && activity.Pet == 0 && activity.Sleep == 0)
-                {
-                    activity.Wash = !activity.Wash;
-                }
-            }
-
-            if (btns.sleep && Button(&PIND, 3, 1, 0))
-            {
-                btns.sleep = 0;
-                if (activity.Eat == 0 && activity.Pet == 0 && activity.Wash == 0)
-                {
-                    activity.Sleep = !activity.Sleep;
-                    if (activity.Sleep) 
-                    {
-                        config->is_sleeping = true;
-                        RenderGameFrame(config, &params);
-                        TCCR0 = 0x03;
-                        PrintRestSemisegment();
-                        Sleep(1000);
-                        TCCR0 = 0x00;
-                        PORTA = 1;
-                        PORTC = 0x79;
-                    } 
-                    else
-                    {
-                        config->is_sleeping = false;
-                        RenderGameFrame(config, &params);
-                        //TCCR0 = 0x03;
-                        //ClearSemisegment();
-                        //Sleep(1000);
-                        //TCCR0 = 0x00;
-                        PORTA = 0;
-                    }
-                }
-            }
-
-            if (btns.menu && Button(&PINB, 3, 1, 0))
-            {
-                btns.menu = 0;
-                config->game_over_reason = " U pressed menu";
-                config->game_over = true;
-                break;
-            }
-        }
-
-        if (activity.Eat)
-        {
-            //PrintEatSemisegment();
-            if (i == LIMIT)
-            {
-                params.food += 2;
-            }
-            
-        }
-        else if (activity.Pet)
-        {
-            //PrintLoveSemisegment();
-            if (i == LIMIT)
-            {
-                params.love += 2;
-            }
-            
-        }
-        else if (activity.Sleep)
-        {
-            //PrintRestSemisegment();
-            if (i == LIMIT)
-            {
-                params.sleep += 2;
-            }
-        }
-        else if (activity.Wash)
-        {
-            //PrintBathSemisegment();
-            if (i == LIMIT)
-            {
-                params.wash += 2;
-            }
-            
-        }
-
-        
-        if (params.food > config->food_lim)
-        {
-            config->is_fat = true;
-        }
-        else
-        {
-            config->is_fat = false;
-        }
-
-
-        if (i == LIMIT)
-        {
-            MakeTick(&params);
-            i = 0;
-        }
-        //RenderGameFrame(config, &params);
-        //Sleep(300 * MILLISECOND); //�������� �� ������� ����������
-    }
-
-    DisplayGameOver(config->game_over_reason);
-    while (1)
+    do
     {
-        if (Button(&PINB, 0, 1, 1))
+        PollButtons(config, &params);
+        UpdateGameplayParameters(config, &params);
+        UpdateFatness(config, &params);
+
+        if (config->allow_rerendering)
         {
-            btns.ok = 1;
+            RenderGameFrame(config, &params);
+            config->allow_rerendering = false;
         }
 
-        if (Button(&PINB, 3, 1, 0))
-        {
-            btns.menu = 0;
-        }
-        ///////////////////////////////////////////////////////////////////
-        if (btns.ok && Button(&PINB, 0, 1, 0))
-        {
-            btns.ok = 0;
-            break;
-        }
+    } while (!HasGameOverSituation(config, &params));
 
-        if (btns.menu && Button(&PINB, 3, 1, 0))
-        {
-            btns.menu = 0;
-            break;
-        }
-    }
-
-    config->state = ON_MENU;
+    config->state = ON_GAME_OVER;
 }

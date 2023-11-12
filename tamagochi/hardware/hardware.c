@@ -4,15 +4,13 @@
 #include <tamagochi/hardware/lcd/lcd.h>
 #include <tamagochi/hardware/semisegment/semisegment.h>
 
-
-
+/**
+ * Initializes the hardware components of the Tamagochi device.
+ * This function initializes the buttons and the LCD screen.
+ */
 void InitHardware()
 {
-    TCCR0 = 0x00;   // ClkI/O/64 (From prescaler)
-    SREG_I_bit = 1; // Interrupt enable
-    TOIE0_bit = 1;  // Timer0 overflow interrupt enable
-
-    InitSemisegments();
+    //InitSemisegments();
     InitButtons();
     InitLCD();
 }

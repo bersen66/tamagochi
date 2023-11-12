@@ -6,6 +6,7 @@
 /* =|'W'|= -- cat */
 /* @('_')@ -- monkey */
 
+
 void RenderMenuFrame(GameConfig *config)
 {
     ClearLCD();
@@ -20,7 +21,7 @@ void RenderMenuFrame(GameConfig *config)
         PrintLCD("   <-Diego->");
         break;
     case FROG:
-        PrintLCD("     C(O  )\n");
+        PrintLCD("    C(O   )\n");
         PrintLCD("   <-Klava->");
         break;
     }
@@ -36,43 +37,43 @@ void DisplayGameOver(char reason[16])
 
 void PrintCat(GameConfig *config)
 {
-    if (config->is_sleeping)
+    if (config->activity.Sleep)
     {
         if (config->is_fat)
         {
-            PrintLCD("  >|  -W-  |<\n");
+            PrintLCD(">|  -W-  |<\n");
         }
         else
         {
-            PrintLCD("    >|-W-|<\n");
+            PrintLCD(">|-W-|<\n");
         }
-        PrintLCD("   Zzzzzzzzz  ");
+        PrintLCD("  Zzzzzzzzz  ");
     }
     else
     {
         if (config->is_fat)
         {
-            PrintLCD("  =|  ' W '  |=\n");
+            PrintLCD("=|  ' W '  |=\n");
         }
         else
         {
-            PrintLCD("    =|'W'|=\n");
+            PrintLCD("=|'W'|=\n");
         }
-        PrintLCD("     Boris    ");
+        PrintLCD("    Boris    ");
     }
 }
 
 void PrintMonkey(GameConfig *config)
 {
-    if (config->is_sleeping)
+    if (config->activity.Sleep)
     {
         if (config->is_fat)
         {
-            PrintLCD("  @(   -_-   )@\n");
+            PrintLCD("@(   -_-   )@\n");
         }
         else
         {
-            PrintLCD("    @(-_-)@\n");
+            PrintLCD("@(-_-)@\n");
         }
 
         PrintLCD("  Zzzzzzz ");
@@ -81,11 +82,11 @@ void PrintMonkey(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD("  @(   '_'   )@\n");
+            PrintLCD("@(   '_'   )@\n");
         }
         else
         {
-            PrintLCD("    @('_')@\n");
+            PrintLCD("@('_')@\n");
         }
         PrintLCD("   Diego   ");
     }
@@ -93,16 +94,16 @@ void PrintMonkey(GameConfig *config)
 
 void PrintFrog(GameConfig *config)
 {
-    if (config->is_sleeping)
+    if (config->activity.Sleep)
     {
 
         if (config->is_fat)
         {
-            PrintLCD("  -(+     ' )\n");
+            PrintLCD("-(+     ' )\n");
         }
         else
         {
-            PrintLCD("    -(+  ')\n");
+            PrintLCD("-(+  ')\n");
         }
         PrintLCD("   Zzzzzzz   ");
     }
@@ -110,43 +111,14 @@ void PrintFrog(GameConfig *config)
     {
         if (config->is_fat)
         {
-            PrintLCD("  C(O       ')\n");
+            PrintLCD("C(O       ')\n");
         }
         else
         {
-            PrintLCD("    C(O ')\n");
+            PrintLCD("C(O ')\n");
         }
         PrintLCD("   Klava   ");
     }
-}
-
-void NeedAction(GameConfig *config, GameplayParameters *params)
-{
-    if (params->food < config->food_lim / 3)
-    {
-        PrintEatSemisegment();
-        return;
-    }
-
-    if (params->love < config->love_lim / 3)
-    {
-        PrintLoveSemisegment();
-        return;
-    }
-
-    if (params->wash < config->wash_lim / 3)
-    {
-        PrintBathSemisegment();
-        return;
-    }
-
-    if (params->sleep < config->sleep_lim / 3)
-    {
-        PrintRestSemisegment();
-        return;
-    }
-
-    PrintCoolSemisegment();
 }
 
 void RenderGameFrame(GameConfig *config, GameplayParameters *params)

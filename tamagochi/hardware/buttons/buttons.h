@@ -1,6 +1,10 @@
 #pragma once
 
 
+/**
+ * @brief Struct representing the previous states of the buttons.
+ * 
+ */
 typedef struct ButtonOldstates
 {
     unsigned short ok : 1;

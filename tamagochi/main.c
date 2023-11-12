@@ -6,7 +6,6 @@ GameConfig cfg;
 
 CONNECT_LCD
 
-
 void main()
 {
   InitHardware();

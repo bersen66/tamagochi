@@ -5,14 +5,6 @@ unsigned short portd_array[4] = {0, 0, 0, 0};
 
 void InitSemisegments()
 {   
-
-    //DDRA=0x0f;
-    //PORTA=0;
-    //DDRC = 0xff;
-    //PORTC = 0x00;
-    // DDRD=0xff;
-    // PORTD=0;
-
     portd_index = 0;
     shifter = 1;
 }
@@ -81,7 +73,7 @@ unsigned short MaksOf(char c)
     }
 }
 
-void Timer0Overflow_ISR() org IVT_ADDR_TIMER0_OVF
+void Flush()
 {
     PORTA = 0;                        // Turn off all 7seg displays
     PORTC = portd_array[portd_index]; // bring appropriate value to PORTC
