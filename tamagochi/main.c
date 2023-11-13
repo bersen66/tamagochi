@@ -2,7 +2,6 @@
 #include <tamagochi/logic/logic.h>
 #include <tamagochi/hardware/hardware.h>
 
-
 GameConfig cfg;
 
 CONNECT_LCD

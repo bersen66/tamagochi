@@ -10,6 +10,6 @@ typedef struct CurrentParameters
     int wash;
 } GameplayParameters;
 
-void MakeTick(GameplayParameters *p);
+void UpdateGameplayParameters(GameConfig *config, GameplayParameters *p);
 
 void InitGameplayParameters(GameConfig *cfg, GameplayParameters *p);

@@ -1,5 +1,16 @@
 #pragma once
 
+/**
+ * @brief Defines the connections of the LCD to the microcontroller.
+ * 
+ * This macro defines the specific pins of the microcontroller that are connected to the LCD display.
+ * It uses the sbit keyword to define each pin as a bit of a specific port, and also defines the direction
+ * of each pin using the sbit keyword and the _Direction suffix.
+ * 
+ * Usage: 
+ *  - Include this header file in the source file where the LCD is used.
+ *  - Call the macro CONNECT_LCD before initializing the LCD.
+ */
 #ifndef CONNECT_LCD
 #define CONNECT_LCD \
 sbit LCD_RS at PORTA2_bit; \

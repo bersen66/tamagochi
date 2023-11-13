@@ -9,14 +9,15 @@ unsigned short cnt;
 unsigned short prev_cnt;
 extern ButtonOldstates btns;
 
-void DoMenuLogic(GameConfig *config)
+
+
+void RunMenuLogic(GameConfig *config)
 {
     cnt = 0;
     prev_cnt = 0;
 
     InitConfig(config);
     RenderMenuFrame(config);
-
     ClearButtonOldstates();
 
     while (1)
@@ -98,7 +99,6 @@ void DoMenuLogic(GameConfig *config)
         }
 
         prev_cnt = cnt;
-        Sleep(100 * MILLISECOND);
     }
 
     config->state = ON_GAME;

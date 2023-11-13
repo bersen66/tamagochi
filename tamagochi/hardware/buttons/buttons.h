@@ -1,16 +1,20 @@
 #pragma once
 
 
+/**
+ * @brief Struct representing the previous states of the buttons.
+ * 
+ */
 typedef struct ButtonOldstates
 {
-    unsigned short ok : 1;
-    unsigned short left : 1;
-    unsigned short right : 1;
-    unsigned short menu : 1;
-    unsigned short feed : 1;
-    unsigned short love : 1;
-    unsigned short sleep : 1;
-    unsigned short wash : 1;
+    unsigned char ok : 1;
+    unsigned char left : 1;
+    unsigned char right : 1;
+    unsigned char menu : 1;
+    unsigned char feed : 1;
+    unsigned char love : 1;
+    unsigned char sleep : 1;
+    unsigned char wash : 1;
 } ButtonOldstates;
 
 extern ButtonOldstates btns;
@@ -41,16 +45,3 @@ static inline void ClearButtonOldstates()
     btns.wash = 0;
 }
 
-// Хз будет ли работать
-static inline void PollButtons()
-{
-    btns.ok = PINB0_bit;
-    btns.left = PINB1_bit;
-    btns.right = PINB2_bit;
-    btns.menu = PINB3_bit;
-
-    btns.feed = PIND0_bit;
-    btns.love = PIND1_bit;
-    btns.sleep = PIND2_bit;
-    btns.wash = PIND3_bit;
-}

@@ -1,10 +1,15 @@
 #include <tamagochi/graphics/graphics.h>
 #include <tamagochi/hardware/lcd/lcd.h>
 #include <tamagochi/hardware/semisegment/semisegment.h>
+#include <tamagochi/graphics/textures.h>
 
-/* c(o ") -- frog */
-/* =|'W'|= -- cat */
-/* @('_')@ -- monkey */
+
+inline DoRenderMenuFrame(char* texture_pack[6])
+{
+    ClearLCD();
+    PrintLCD(texture_pack[SLIM_BASIC]);
+    PrintLCD(texture_pack[MENU_NAME]);
+}
 
 void RenderMenuFrame(GameConfig *config)
 {
@@ -12,145 +17,89 @@ void RenderMenuFrame(GameConfig *config)
     switch (config->type)
     {
     case CAT:
-        PrintLCD("=|'W'|=\n");
-        PrintLCD("  <-Boris->  ");
+        DoRenderMenuFrame(CAT_TEXTURES);
         break;
     case MONKEY:
-        PrintLCD("@('_')@\n");
-        PrintLCD("  <- Diego ->  ");
+        DoRenderMenuFrame(MONKE_TEXTURES);
         break;
     case FROG:
-        PrintLCD("C(O  )\n");
-        PrintLCD("  <- Klava -> ");
+        DoRenderMenuFrame(FROG_TEXTURES);
         break;
     }
+    PORTA = 0;
+    
 }
 
 void DisplayGameOver(char reason[16])
 {
     ClearLCD();
-    PrintLCD("  GAME OVER.  ");
+    PrintLCD("   GAME OVER.  \n");
     PrintLCD(reason);
+}
+
+void RenderAnimalInGameplay(char *texture_pack[6], GameConfig *config)
+{
+    if (config->activity.Sleep)
+    {
+
+        if (config->is_fat)
+        {
+            PrintLCD(texture_pack[FAT_SLEEP]);
+        }
+        else
+        {
+            PrintLCD(texture_pack[SLIM_SLEEP]);
+        }
+    }
+    else
+    {
+        if (config->is_fat)
+        {
+            PrintLCD(texture_pack[FAT_BASIC]);
+        }
+        else
+        {
+            PrintLCD(texture_pack[SLIM_BASIC]);
+        }
+    }
+
+    if (config->activity.Eat)
+    {
+        PrintLCD(ACTIVITIES[EATING]);
+    }
+    else if (config->activity.Love)
+    {
+        PrintLCD(ACTIVITIES[PLAYING]);
+    }
+    else if (config->activity.Wash)
+    {
+        PrintLCD(ACTIVITIES[WASHING]);
+    }
+    else if (config->activity.Sleep)
+    {
+        PrintLCD(ACTIVITIES[SLEEPING]);
+    } else {
+        PrintLCD(texture_pack[GAME_NAME]);
+    }
 }
 
 void PrintCat(GameConfig *config)
 {
-    if (config->is_sleeping)
-    {
-        if (config->is_fat)
-        {
-            PrintLCD(">|  -W-  |<\n");
-        }
-        else
-        {
-            PrintLCD(">|-W-|<\n");
-        }
-        PrintLCD("  Zzzzzzzzz  ");
-    }
-    else
-    {
-        if (config->is_fat)
-        {
-             PrintLCD("=|  ' W '  |=\n");
-        }
-        else
-        {
-            PrintLCD("=|'W'|=\n");
-        }
-        PrintLCD("    Boris    ");
-    }
+   RenderAnimalInGameplay(CAT_TEXTURES, config);
 }
 
 void PrintMonkey(GameConfig *config)
 {
-    if (config->is_sleeping)
-    {
-        if (config->is_fat)
-        {
-            PrintLCD("@(   -_-   )@\n");
-        }
-        else
-        {
-            PrintLCD("@(-_-)@\n");
-        }
-
-        PrintLCD("  Zzzzzzz ");
-    }
-    else
-    {
-        if (config->is_fat)
-        {
-            PrintLCD("@(   '_'   )@\n");
-        }
-        else
-        {
-            PrintLCD("@('_')@\n");
-        }
-        PrintLCD("   Diego   ");
-    }
+    RenderAnimalInGameplay(MONKE_TEXTURES, config);
 }
 
 void PrintFrog(GameConfig *config)
 {
-    if (config->is_sleeping)
-    {
-        
-        if (config->is_fat)
-        {
-           PrintLCD("-(+     ' )\n");   
-        }
-        else
-        {
-            PrintLCD("-(+  ')\n");
-        }
-        PrintLCD("   Zzzzzzz   ");
-    }
-    else
-    {
-        if (config->is_fat)
-        {
-            PrintLCD("C(O       ')\n");
-        }
-        else
-        {
-            PrintLCD("C(O ')\n");
-        }
-        PrintLCD("   Klava   ");
-    }
-}
-
-void NeedAction(GameConfig *config, GameplayParameters *params)
-{
-    if (params->food < config->food_lim / 3)
-    {
-        PrintEatSemisegment();
-        return;
-    }
-
-    if (params->love < config->love_lim / 3)
-    {
-        PrintLoveSemisegment();
-        return;
-    }
-
-    if (params->wash < config->wash_lim / 3)
-    {
-        PrintBathSemisegment();
-        return;
-    }
-
-    if (params->sleep < config->sleep_lim / 3)
-    {
-        PrintRestSemisegment();
-        return;
-    }
-
-    PrintCoolSemisegment();
+    RenderAnimalInGameplay(FROG_TEXTURES, config);
 }
 
 void RenderGameFrame(GameConfig *config, GameplayParameters *params)
 {
-
     ClearLCD();
     switch (config->type)
     {
@@ -161,7 +110,7 @@ void RenderGameFrame(GameConfig *config, GameplayParameters *params)
         PrintMonkey(config);
         break;
     case FROG:
-        PrintFrog(config);        
+        PrintFrog(config);
         break;
     }
 }
