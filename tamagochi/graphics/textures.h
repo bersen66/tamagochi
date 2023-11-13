@@ -15,31 +15,31 @@ enum TextureIndex
     GAME_NAME = 5,
 } TextureIndex;
 
-const char* CAT_TEXTURES[] = {
-    "    =|'W'|=    ",
-    "    =|-W-|=    ",
-    " =|   'W'   |= ",
-    " =|   -W-   |= ",
-    "   <-Boris->   ",
-    "     Boris     ",
+char* CAT_TEXTURES[] = {
+    "    =|'W'|=    \n",
+    "    =|-W-|=    \n",
+    " =|   'W'   |= \n",
+    " =|   -W-   |= \n",
+    "   <-Boris->   \n",
+    "     Boris     \n",
 };
 
-const char* MONKE_TEXTURES[] = {
-    "    @('_')@    ",
-    "    @(-_-)@    ",
-    " @(   '_'   )@ ",
-    " @(   -_-   )@ ",
-    "   <-Diego->   ",
-    "     Diego     ",
+char* MONKE_TEXTURES[] = {
+    "    @('_')@    \n",
+    "    @(-_-)@    \n",
+    " @(   '_'   )@ \n",
+    " @(   -_-   )@ \n",
+    "   <-Diego->   \n",
+    "     Diego     \n",
 };
 
-const char* FROG_TEXTURES[] = {
-    "     c(o )     ",
-    "     -(- )     ",
-    "   c(o     )   ",
-    "   -(-     )   ",
-    "   <-Klava->   ",
-    "     Klava     ",
+char* FROG_TEXTURES[] = {
+    "     c(o )     \n",
+    "     -(- )     \n",
+    "   c(o     )   \n",
+    "   -(-     )   \n",
+    "   <-Klava->   \n",
+    "     Klava     \n",
 };
 
 enum ActivityIndex
@@ -50,9 +50,9 @@ enum ActivityIndex
     WASHING = 3,
 } ActivityIndex;
 
-const char* ACTIVITIES[] = {
-    "   IS PLAYING  ",
-    "   IS EATING   ",
-    "   IS SLEEPING ",
-    "   IS WASHING  ",
+char* ACTIVITIES[] = {
+    "   IS PLAYING  \n",
+    "   IS EATING   \n",
+    "   IS SLEEPING \n",
+    "   IS WASHING  \n",
 };

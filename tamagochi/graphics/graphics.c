@@ -3,7 +3,8 @@
 #include <tamagochi/hardware/semisegment/semisegment.h>
 #include <tamagochi/graphics/textures.h>
 
-inline DoRenderMenuFrame(const char **texture_pack)
+
+inline DoRenderMenuFrame(char* texture_pack[6])
 {
     ClearLCD();
     PrintLCD(texture_pack[SLIM_BASIC]);
@@ -26,6 +27,7 @@ void RenderMenuFrame(GameConfig *config)
         break;
     }
     PORTA = 0;
+    
 }
 
 void DisplayGameOver(char reason[16])
@@ -35,7 +37,7 @@ void DisplayGameOver(char reason[16])
     PrintLCD(reason);
 }
 
-void RenderAnimalInGameplay(const char **texture_pack, GameConfig *config)
+void RenderAnimalInGameplay(char *texture_pack[6], GameConfig *config)
 {
     if (config->activity.Sleep)
     {
@@ -83,7 +85,7 @@ void RenderAnimalInGameplay(const char **texture_pack, GameConfig *config)
 
 void PrintCat(GameConfig *config)
 {
-    RenderAnimalInGameplay(CAT_TEXTURES, config);
+   RenderAnimalInGameplay(CAT_TEXTURES, config);
 }
 
 void PrintMonkey(GameConfig *config)

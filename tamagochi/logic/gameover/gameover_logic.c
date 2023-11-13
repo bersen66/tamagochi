@@ -8,23 +8,23 @@ void RunGameoverLogic(GameConfig *config)
     DisplayGameOver(config->game_over_reason);
     while (1)
     {
-        if (Button(&PINB, 0, 1, 1))
+        if (Button(&PINA, 0, 1, 1))
         {
             btns.ok = 1;
         }
 
-        if (Button(&PINB, 3, 1, 0))
+        if (Button(&PINA, 3, 1, 0))
         {
             btns.menu = 1;
         }
         ///////////////////////////////////////////////////////////////////
-        if (btns.ok && Button(&PINB, 0, 1, 0))
+        if (btns.ok && Button(&PINA, 0, 1, 0))
         {
             btns.ok = 0;
             break;
         }
 
-        if (btns.menu && Button(&PINB, 3, 1, 0))
+        if (btns.menu && Button(&PINA, 3, 1, 0))
         {
             btns.menu = 0;
             break;

@@ -25,20 +25,20 @@ void SetupCatLimits(GameConfig *config)
 {
     config->type = CAT;
 
-    config->food_lim = 0;
-    config->sleep_lim = 0;
-    config->love_lim = 0;
-    config->wash_lim = 0;
+    config->food_lim = 100;
+    config->sleep_lim = 100;
+    config->love_lim = 1000;
+    config->wash_lim = 1000;
 
-    config->food_dec = 0;
-    config->love_dec = 0;
-    config->sleep_dec = 0;
-    config->wash_dec = 0;
+    config->food_dec = 1;
+    config->love_dec = 1;
+    config->sleep_dec = 1;
+    config->wash_dec = 1;
 
-    config->food_inc = 0;
-    config->love_inc = 0;
-    config->sleep_inc = 0;
-    config->wash_inc = 0;
+    config->food_inc = 10;
+    config->love_inc = 10;
+    config->sleep_inc = 10;
+    config->wash_inc = 10;
 }
 
 /**

@@ -14,10 +14,10 @@ typedef enum SignalLvl
 
 typedef struct SignalFlags
 {
-    unsigned short hunger : 4;
-    unsigned short love : 4;
-    unsigned short wash : 4;
-    unsigned short sleep : 4;
+    unsigned short hunger : 3;
+    unsigned short love : 3;
+    unsigned short wash : 3;
+    unsigned short sleep : 3;
 } SignalFlags;
 
 typedef union SignalSet

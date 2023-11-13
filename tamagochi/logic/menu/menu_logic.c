@@ -11,11 +11,6 @@ extern ButtonOldstates btns;
 
 
 
-/**
- * Performs the logic for the menu screen.
- * 
- * @param config The game configuration.
- */
 void RunMenuLogic(GameConfig *config)
 {
     cnt = 0;

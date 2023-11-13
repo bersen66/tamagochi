@@ -152,6 +152,7 @@ void RunGameplayLogic(GameConfig *config)
             Signalize(&signals);
             config->allow_signalization = false;
         }
+        Sleep(100 * MILLISECOND);
     } while (!HasGameOverSituation(config, &params));
 
     config->state = ON_GAME_OVER;
