@@ -31,6 +31,7 @@ char* MONKE_TEXTURES[] = {
     " @(   -_-   )@ \n",
     "   <-Diego->   \n",
     "     Diego     \n",
+    
 };
 
 char* FROG_TEXTURES[] = {

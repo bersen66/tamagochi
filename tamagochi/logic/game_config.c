@@ -50,20 +50,20 @@ void SetupMonkeyLimits(GameConfig *config)
 {
     config->type = MONKEY;
 
-    config->food_lim = 0;
-    config->sleep_lim = 0;
-    config->love_lim = 0;
-    config->wash_lim = 0;
+    config->food_lim = 500;
+    config->sleep_lim = 500;
+    config->love_lim = 100;
+    config->wash_lim = 1000;
 
-    config->food_dec = 0;
-    config->love_dec = 0;
-    config->sleep_dec = 0;
-    config->wash_dec = 0;
+    config->food_dec = 1;
+    config->love_dec = 1;
+    config->sleep_dec = 1;
+    config->wash_dec = 1;
 
-    config->food_inc = 0;
-    config->love_inc = 0;
-    config->sleep_inc = 0;
-    config->wash_inc = 0;
+    config->food_inc = 10;
+    config->love_inc = 10;
+    config->sleep_inc = 10;
+    config->wash_inc = 10;
 }
 
 /**
@@ -75,20 +75,20 @@ void SetupFrogLimits(GameConfig *config)
 {
     config->type = FROG;
 
-    config->food_lim = 0;
-    config->sleep_lim = 0;
-    config->love_lim = 0;
-    config->wash_lim = 0;
+    config->food_lim = 1000;
+    config->sleep_lim = 1000;
+    config->love_lim = 1000;
+    config->wash_lim = 900;
 
-    config->food_dec = 0;
-    config->love_dec = 0;
-    config->sleep_dec = 0;
-    config->wash_dec = 0;
+    config->food_dec = 1;
+    config->love_dec = 1;
+    config->sleep_dec = 1;
+    config->wash_dec = 1;
 
-    config->food_inc = 0;
-    config->love_inc = 0;
-    config->sleep_inc = 0;
-    config->wash_inc = 0;
+    config->food_inc = 10;
+    config->love_inc = 10;
+    config->sleep_inc = 10;
+    config->wash_inc = 10;
 }
 
 /**

@@ -10,44 +10,37 @@
 GameplayParameters params;
 SignalSet signals;
 
+/**
+ * Determines if the game has reached a game over situation based on the given parameters.
+ * If any of the parameters (food, love, wash, sleep) are less than or equal to 0, the game is over.
+ * @param config The game configuration.
+ * @param parameters The gameplay parameters.
+ * @return True if the game is over, false otherwise.
+ */
 bool HasGameOverSituation(GameConfig *config, GameplayParameters *parameters)
 {
     if (params.food <= 0)
     {
         config->is_game_over = true;
-        config->game_over_reason = "     Hunger";
+        config->game_over_reason = "     Hunger    ";
     }
     else if (params.love <= 0)
     {
         config->is_game_over = true;
-        config->game_over_reason = "   Loneliness";
+        config->game_over_reason = "   Loneliness  ";
     }
     else if (params.wash <= 0)
     {
         config->is_game_over = true;
-        config->game_over_reason = "     Dirt";
+        config->game_over_reason = "     Dirt      ";
     }
     else if (params.sleep <= 0)
     {
         config->is_game_over = true;
-        config->game_over_reason = "Sleepiness";
+        config->game_over_reason = "   Sleepiness  ";
     }
 
     return config->is_game_over;
-}
-
-void UpdateFatness(GameConfig *config, GameplayParameters *params)
-{
-    if (!config->is_fat && params->food > config->food_lim)
-    {
-        config->is_fat = true;
-        config->allow_rerendering = true;
-    }
-    if (config->is_fat && params->food < config->food_lim)
-    {
-        config->is_fat = false;
-        config->allow_rerendering = true;
-    }
 }
 
 void PollButtons(GameConfig *config, GameplayParameters *params)
@@ -125,6 +118,32 @@ void PollButtons(GameConfig *config, GameplayParameters *params)
     }
 }
 
+void UpdateFatness(GameConfig *config, GameplayParameters *params)
+{
+    if (!config->is_fat && params->food > config->food_lim)
+    {
+        config->is_fat = true;
+        config->allow_rerendering = true;
+    }
+    if (config->is_fat && params->food < config->food_lim)
+    {
+        config->is_fat = false;
+        config->allow_rerendering = true;
+    }
+}
+
+/**
+ * @brief Updates the logic of the gameplay.
+ *
+ * @param config Pointer to the game configuration.
+ * @param params Pointer to the gameplay parameters.
+ */
+void UpdateLogic(GameConfig *config, GameplayParameters *params)
+{
+    UpdateGameplayParameters(config, params);
+    UpdateFatness(config, params);
+}
+
 void RunGameplayLogic(GameConfig *config)
 {
     InitGameplayParameters(config, &params);
@@ -137,8 +156,11 @@ void RunGameplayLogic(GameConfig *config)
     do
     {
         PollButtons(config, &params);
-        UpdateGameplayParameters(config, &params);
-        UpdateFatness(config, &params);
+        if (config->is_game_over)
+        {
+            break;
+        }
+        UpdateLogic(config, &params);
 
         if (config->allow_rerendering)
         {
@@ -152,7 +174,7 @@ void RunGameplayLogic(GameConfig *config)
             Signalize(&signals);
             config->allow_signalization = false;
         }
-        Sleep(100 * MILLISECOND);
+        Sleep(50 * MILLISECOND);
     } while (!HasGameOverSituation(config, &params));
 
     config->state = ON_GAME_OVER;

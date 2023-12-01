@@ -1,6 +1,5 @@
 #include <tamagochi/hardware/time/constants.h>
 
-
 /**
  * @file constants.c
  * @brief Definition of time constants in milliseconds, seconds, minutes and hours.
