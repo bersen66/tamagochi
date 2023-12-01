@@ -1,4 +1,5 @@
 #include <tamagochi/hardware/lcd/functions.h>
+#include <tamagochi/hardware/lcd/connections.h>
 #include <string.h>
 
 struct LCDScreen
@@ -11,6 +12,7 @@ struct LCDScreen
 
 static int i = 0;
 static int n = 0;
+
 
 void InitLCD()
 {
@@ -54,7 +56,12 @@ inline char GetCol(char idx)
     return idx % WD + 1;
 }
 
-// TODO: printf analogue
+
+/**
+ * @brief Prints a string on the LCD screen.
+ * 
+ * @param text The string to be printed.
+ */
 void PrintLCD(char *text)
 {
     while (*text != '\0')

@@ -1,33 +1,47 @@
 #pragma once
-#include <tamagochi/utils/bool.h>
 
-enum ButtonCode
+
+/**
+ * @brief Struct representing the previous states of the buttons.
+ * 
+ */
+typedef struct ButtonOldstates
 {
-    BUTTON_OK = 0,
-    BUTTON_LEFT = 1,
-    BUTTON_RIGHT = 2,
-    BUTTON_MENU = 3,
-    BUTTON_FEED = 4,
-    BUTTON_LOVE = 5,
-    BUTTON_SLEEP = 6,
-    BUTTON_WASH = 7,
-};
+    unsigned char ok : 1;
+    unsigned char left : 1;
+    unsigned char right : 1;
+    unsigned char menu : 1;
+    unsigned char feed : 1;
+    unsigned char love : 1;
+    unsigned char sleep : 1;
+    unsigned char wash : 1;
+} ButtonOldstates;
 
-enum ButtonState {
-    BTN_STATE_UP = 0,
-    BTN_STATE_PRESSED = 1,
-    BTN_STATE_DOWN = 2,
-    BTN_STATE_RELEASED = 3,
-};
+extern ButtonOldstates btns;
 
-void InitButtons();
 
-void PollButtons();
+static inline void InitButtons()
+{
+    DDD0_bit = 0; // Set D0 pin as input
+    DDD1_bit = 0; // Set D1 pin as input
+    DDD2_bit = 0; // Set D2 pin as input
+    DDD3_bit = 0; // Set D3 pin as input
 
-bool ButtonIsPressed(enum ButtonCode bc);
+    DDB0_bit = 0; // Set B0 pin as input
+    DDB1_bit = 0; // Set B1 pin as input
+    DDB2_bit = 0; // Set B2 pin as input
+    DDB3_bit = 0; // Set B3 pin as input
+}
 
-bool ButtonIsReleased(enum ButtonCode bc);
+static inline void ClearButtonOldstates()
+{
+    btns.ok = 0;
+    btns.left = 0;
+    btns.right = 0;
+    btns.menu = 0;
+    btns.feed = 0;
+    btns.love = 0;
+    btns.sleep = 0;
+    btns.wash = 0;
+}
 
-bool ButtonIsDown(enum ButtonCode bc);
-
-bool ButtonIsUp(enum ButtonCode bc);

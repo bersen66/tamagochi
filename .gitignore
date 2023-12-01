@@ -11,6 +11,7 @@
 *.mcl
 *.mcpav
 *.ini
+.vscode
 tamagochi.lst
 tamagochi.user.dic
 tamagochi.mcpav_callertable.txt
